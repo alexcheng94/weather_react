@@ -13,9 +13,14 @@ export default class Chart extends Component {
 		super(prop);
 	}
 
-	componentDidMount() {
-		var myChart = echarts.init(document.getElementById("chart"), "macarons");
-		myChart.setOption({
+	instantiateChart(){
+		const weatherChart = echarts.init(
+			document.getElementById("chart"),
+			"macarons"
+		);
+		weatherChart.clear();
+
+		weatherChart.setOption({
 			title: { text: "" },
 			tooltip: {},
 			axisPointer: {
@@ -37,13 +42,23 @@ export default class Chart extends Component {
 				}
 			]
 		});
-
-
-		window.addEventListener("resize", ()=>{myChart.resize()});
+		window.addEventListener("resize", () => {
+			weatherChart.resize();
+		});
 	}
 
-	componentWillUnmount(){
-		window.removeEventListener("resize");
+	componentDidUpdate() {
+		this.instantiateChart();
+	}
+	
+	componentDidMount() {
+		this.instantiateChart();
+	}
+
+	componentWillUnmount() {
+		window.removeEventListener("resize",  () => {
+			weatherChart.resize();
+		});
 	}
 
 	render() {

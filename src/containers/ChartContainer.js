@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import moment from 'moment';
 
 import Chart from "../components/chart";
 import ButtonsContainer from "../components/buttonsContainer";
@@ -20,11 +21,15 @@ class ChartContainer extends Component {
 
 		let tempList = [];
 		let timePoints = [];
-		console.log(this.props.weather)
 
 		if (this.props.weather.length>0) {
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp)
-			timePoints = weatherList.map(weatherItem => weatherItem.dt_txt)
+			timePoints = weatherList.map(weatherItem => {
+				const s = weatherItem.dt;
+				const date = moment.unix(s).calendar();
+				return date;
+			})
+
 		}
 
 		return (
