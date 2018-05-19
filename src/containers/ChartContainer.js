@@ -1,66 +1,58 @@
 import React, { Component } from "react";
-import axios from "axios";
-import _ from "lodash";
+import { connect } from "react-redux";
 
 import Chart from "../components/chart";
 import ButtonsContainer from "../components/buttonsContainer";
 
-export default class ChartContainer extends Component {
+class ChartContainer extends Component {
 	constructor(prop) {
 		super(prop);
 		this.state = {
 			temperatureShow: true,
 			humidityShow: false,
-			precipitationShow: false,
-			//data states
-			weatherList: [],
-			temps: [],
-			timePoints: [],
-			searchTerm: "shanghai",
-			celsius: true
+			precipitationShow: false
 		};
 	}
 
-	componentDidMount() {
-		const API_KEY = "1b436fa7255fb87869c2000de33af2d6";
-		const unit = this.state.celsius ? "metric" : "imperial";
-		const { searchTerm } = this.state;
-		const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}`;
-		const url = `${ROOT_URL}&units=${unit}&q=${searchTerm}`;
-
-		axios.get(url).then(res => {
-			var temps = [];
-			res.data.list.map(weather => temps.push(weather.main.temp));
-			var timePoints = [];
-			res.data.list.map(weather => timePoints.push(weather.dt_txt));
-
-			this.setState({ weatherList: res.data.list, temps, timePoints });
-			console.log(res.status);
-		});
-	}
-
 	render() {
+		const cityData = this.props.weather[this.props.weather.length - 1] || [];
+		const weatherList = cityData.list;
+
+		let tempList = [];
+		let timePoints = [];
+		console.log(this.props.weather)
+
+		if (this.props.weather.length>0) {
+			tempList = weatherList.map(weatherItem => weatherItem.main.temp)
+			timePoints = weatherList.map(weatherItem => weatherItem.dt_txt)
+		}
+
 		return (
 			<div className="bg-light ">
-				{this.state.weatherList.length > 0 ? (
+				{this.props.weather.length > 0 ? (
 					<Chart
-						temps={this.state.temps}
-						timePoints={this.state.timePoints}
-						temperatureShow={this.state.temperatureShow}
-						humidityShow={this.state.humidityShow}
-						precipitationShow={this.state.precipitationShow}
-						celsius={this.state.celsius}
+						temps={tempList}
+						timePoints={timePoints}
+						// temperatureShow={this.state.temperatureShow}
+						// humidityShow={this.state.humidityShow}
+						// precipitationShow={this.state.precipitationShow}
+						// celsius={this.state.celsius}
 					/>
 				) : (
 					<h1>Loading</h1>
 				)}
 				<ButtonsContainer
-					temperatureShow={this.state.temperatureShow}
-					humidityShow={this.state.humidityShow}
-					precipitationShow={this.state.precipitationShow}
-					celsius={this.state.celsius}
+				// temperatureShow={this.state.temperatureShow}
+				// humidityShow={this.state.humidityShow}
+				// precipitationShow={this.state.precipitationShow}
+				// celsius={this.state.celsius}
 				/>
 			</div>
 		);
 	}
 }
+
+function mapStateToProps(state) {
+	return { weather: state.weather };
+}
+export default connect(mapStateToProps)(ChartContainer);

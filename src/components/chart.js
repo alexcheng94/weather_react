@@ -14,7 +14,6 @@ export default class Chart extends Component {
 	}
 
 	componentDidMount() {
-		
 		var myChart = echarts.init(document.getElementById("chart"), "macarons");
 		myChart.setOption({
 			title: { text: "" },
