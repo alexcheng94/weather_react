@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/line";
+import "echarts/lib/chart/bar";
 import "echarts/lib/component/tooltip";
 import "echarts/lib/component/dataZoom";
 import "echarts/lib/component/title";
@@ -10,28 +11,23 @@ import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
 export default class Chart extends Component {
-	constructor(prop) {
-		super(prop);
-	}
-
 	instantiateChart() {
 		const weatherChart = echarts.init(
 			document.getElementById("chart"),
 			"macarons"
 		);
-		weatherChart.clear();
-
 		weatherChart.setOption({
 			title: { text: "" },
 			tooltip: {
-				trigger: "axis"
-				// formatter: params =>
-				// 	`${params[0].name}<br/>${params[0].seriesName} : ${
-				// 		params[0].value
-				// 	} C\xB0<br/>${params[1].seriesName} : ${params[1].value}%`
+				trigger: "axis",
+				formatter: params =>
+					`${params[0].name}<br/>
+					${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
+					${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
+					${params[2].marker}${params[2].seriesName}: ${params[2].value}%`
 			},
 			legend: {
-				data: ["Temperature", "Humidity"],
+				data: ["Temperature", "Humidity","Rain"],
 				x: "left"
 			},
 			axisPointer: {
@@ -46,7 +42,6 @@ export default class Chart extends Component {
 				{
 					left: 50,
 					right: 50,
-					// top: "55%",
 					bottom: 60,
 					height: "10%"
 				}
@@ -59,11 +54,9 @@ export default class Chart extends Component {
 				},
 				{
 					gridIndex: 1,
-					// show:false,
 					type: "category",
 					boundaryGap: false,
 					data: this.props.timePoints
-					// position: "top"
 				}
 			],
 			yAxis: [
@@ -73,11 +66,17 @@ export default class Chart extends Component {
 					scale: true
 				},
 				{
+					name: "Precipitation (mm)",
+					type: "value",
+					scale: true
+				},
+				{
 					gridIndex: 1,
 					name: "Humidity (%)",
+					nameGap: 5,
 					type: "value",
-					formatter: "{value}%",
-					min: value => value.min - 5
+					interval: 20,
+					scale: true
 				}
 			],
 			series: [
@@ -88,19 +87,20 @@ export default class Chart extends Component {
 					data: this.props.temps
 				},
 				{
+					name: "Rain",
+					type: "bar",
+					yAxisIndex: 1,
+					data: this.props.rain
+				},
+				{
 					name: "Humidity",
 					type: "line",
+					areaStyle: {},
 					xAxisIndex: 1,
-					yAxisIndex: 1,
+					yAxisIndex: 2,
 					smooth: true,
 					data: this.props.humidity
 				}
-				// {
-				// 	name: "Precipitation",
-				// 	type: "line",
-				// 	smooth: true,
-				// 	data: this.props.precipitation
-				// }
 			],
 			dataZoom: [
 				{
@@ -135,6 +135,6 @@ export default class Chart extends Component {
 	}
 
 	render() {
-		return <div id="chart" className="col-sm-12" style={{ height: 600 }} />;
+		return <div id="chart" className="col-sm-12" style={{ height: 580 }} />;
 	}
 }
