@@ -19,8 +19,9 @@ class SearchBar extends Component {
 		const { searchTerm } = this.state;
 		this.props.fetchWeather(searchTerm, 'metric');
 	}
-
 	render() {
+		//fetch my location, used for development
+		// this.props.fetchWeather('yuci', 'metric');
 		return (
 			<form
 				className="form-inline float-left "

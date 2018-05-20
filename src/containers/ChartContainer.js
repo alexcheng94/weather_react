@@ -15,12 +15,15 @@ class ChartContainer extends Component {
 		};
 	}
 
+
+
 	render() {
 		const cityData = this.props.weather[this.props.weather.length - 1] || [];
 		const weatherList = cityData.list;
-
+		console.log(weatherList)
 		let tempList = [];
 		let timePoints = [];
+		let humidity = [];
 
 		if (this.props.weather.length>0) {
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp)
@@ -28,7 +31,8 @@ class ChartContainer extends Component {
 				const s = weatherItem.dt;
 				const date = moment.unix(s).calendar();
 				return date;
-			})
+			});
+			humidity = weatherList.map(weatherItem => weatherItem.main.humidity);
 
 		}
 
@@ -38,6 +42,7 @@ class ChartContainer extends Component {
 					<Chart
 						temps={tempList}
 						timePoints={timePoints}
+						humidity={humidity}
 						// temperatureShow={this.state.temperatureShow}
 						// humidityShow={this.state.humidityShow}
 						// precipitationShow={this.state.precipitationShow}
@@ -46,12 +51,7 @@ class ChartContainer extends Component {
 				) : (
 					<h1>Loading</h1>
 				)}
-				<ButtonsContainer
-				// temperatureShow={this.state.temperatureShow}
-				// humidityShow={this.state.humidityShow}
-				// precipitationShow={this.state.precipitationShow}
-				// celsius={this.state.celsius}
-				/>
+
 			</div>
 		);
 	}
