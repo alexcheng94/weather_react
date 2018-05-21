@@ -17,6 +17,7 @@ class ChartContainer extends Component {
 		let timePoints = [];
 		let humidity = [];
 		let rain = [];
+		let description = [];
 
 		if (this.props.weather.length > 0) {
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp);
@@ -27,6 +28,7 @@ class ChartContainer extends Component {
 			});
 			humidity = weatherList.map(weatherItem => weatherItem.main.humidity);
 			rain = weatherList.map(weatherItem => !weatherItem.rain ? 0 : weatherItem.rain['3h']);
+			description = weatherList.map(weatherItem=>weatherItem.weather[0].description);
 		}
 		return (
 			<div className="bg-light ">
@@ -36,6 +38,7 @@ class ChartContainer extends Component {
 						timePoints={timePoints}
 						humidity={humidity}
 						rain={rain}
+						description={description}
 					/>
 				) : (
 					<h1>Loading</h1>

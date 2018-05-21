@@ -20,14 +20,16 @@ export default class Chart extends Component {
 			title: { text: "" },
 			tooltip: {
 				trigger: "axis",
-				formatter: params =>
-					`${params[0].name}<br/>
-					${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
-					${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
-					${params[2].marker}${params[2].seriesName}: ${params[2].value}%`
+				formatter: params => {
+					return `${params[0].name}<br/>
+									${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
+									${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
+									${params[3].marker}${params[3].seriesName}: ${params[3].value}%<br/>
+									${params[2].seriesName}: ${params[2].value}`;
+				}
 			},
 			legend: {
-				data: ["Temperature", "Humidity","Rain"],
+				data: ["Temperature", "Humidity", "Rain"],
 				x: "left"
 			},
 			axisPointer: {
@@ -92,6 +94,7 @@ export default class Chart extends Component {
 					yAxisIndex: 1,
 					data: this.props.rain
 				},
+
 				{
 					name: "Humidity",
 					type: "line",
@@ -100,7 +103,14 @@ export default class Chart extends Component {
 					yAxisIndex: 2,
 					smooth: true,
 					data: this.props.humidity
+				},
+				{
+					name: "Description",
+					type: "line",
+					show: false,
+					data: this.props.description
 				}
+				
 			],
 			dataZoom: [
 				{
