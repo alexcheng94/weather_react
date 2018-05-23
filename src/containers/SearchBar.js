@@ -8,7 +8,7 @@ class SearchBar extends Component {
 		super(props);
 
 		this.state = {
-			searchTerm: ""
+			searchTerm: "Shanghai"
 		};
 	}
 	handleInputChange(e) {
@@ -19,9 +19,11 @@ class SearchBar extends Component {
 		const { searchTerm } = this.state;
 		this.props.fetchWeather(searchTerm, 'metric');
 	}
+	componentDidMount(){
+		const { searchTerm } = this.state;
+		this.props.fetchWeather(searchTerm, 'metric');
+	}
 	render() {
-		//fetch my location, used for development
-		// this.props.fetchWeather('yuci', 'metric');
 		return (
 			<form
 				className="form-inline float-left "

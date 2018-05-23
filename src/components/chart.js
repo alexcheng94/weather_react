@@ -11,35 +11,55 @@ import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
 export default class Chart extends Component {
+	constructor(props) {
+		super(props);
+	}
+
 	instantiateChart() {
 		const weatherChart = echarts.init(
 			document.getElementById("chart"),
 			"macarons"
 		);
 		weatherChart.setOption({
-			title: { text: "" },
+			title: {
+				text: this.props.cityName,
+				left: "center",
+				top: 35,
+				textStyle: {
+					color: "#000",
+					fontWeight: "bolder",
+					fontSize: "20"
+				}
+			},
 			tooltip: {
 				trigger: "axis",
 				formatter: params => {
+					const obj = {};
+					params.forEach((item)=>{
+						obj[item.seriesId.slice(item.seriesId.length-1)] = item
+					})
+					console.log(obj)
 					return `${params[0].name}<br/>
+									${params[3].value}<img src=${params[2].value} /><br/>
 									${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
 									${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
-									${params[3].marker}${params[3].seriesName}: ${params[3].value}%<br/>
-									${params[2].seriesName}: ${params[2].value}`;
+									${params[4].marker}${params[4].seriesName}: ${params[4].value}%<br/>`;
 				}
 			},
 			legend: {
 				data: ["Temperature", "Humidity", "Rain"],
-				x: "left"
+				x: "left",
+				top: 10
 			},
 			axisPointer: {
 				link: { xAxisIndex: "all" }
 			},
 			grid: [
 				{
+					top: "15%",
 					left: 50,
 					right: 50,
-					height: "65%"
+					height: "60%"
 				},
 				{
 					left: 50,
@@ -105,12 +125,17 @@ export default class Chart extends Component {
 					data: this.props.humidity
 				},
 				{
+					name: "Icon",
+					type: "line",
+					show: false,
+					data: this.props.iconUrl
+				},
+				{
 					name: "Description",
 					type: "line",
 					show: false,
 					data: this.props.description
 				}
-				
 			],
 			dataZoom: [
 				{
