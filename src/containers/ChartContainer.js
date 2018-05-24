@@ -3,13 +3,8 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 import Chart from "../components/chart";
-import ButtonsContainer from "../components/buttonsContainer";
 
 class ChartContainer extends Component {
-	constructor(prop) {
-		super(prop);
-	}
-
 	render() {
 		const cityData = this.props.weather[this.props.weather.length - 1] || [];
 		const weatherList = cityData.list;
@@ -66,7 +61,7 @@ class ChartContainer extends Component {
 						iconUrl={iconUrl}
 					/>
 				) : (
-					<h1>Loading</h1>
+					<h1 className='alert alert-primary'>Loading</h1>
 				)}
 			</div>
 		);

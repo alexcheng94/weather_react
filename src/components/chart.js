@@ -11,10 +11,6 @@ import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
 export default class Chart extends Component {
-	constructor(props) {
-		super(props);
-	}
-
 	instantiateChart() {
 		const weatherChart = echarts.init(
 			document.getElementById("chart"),
@@ -34,16 +30,17 @@ export default class Chart extends Component {
 			tooltip: {
 				trigger: "axis",
 				formatter: params => {
-					const obj = {};
-					params.forEach((item)=>{
-						obj[item.seriesId.slice(item.seriesId.length-1)] = item
-					})
-					console.log(obj)
-					return `${params[0].name}<br/>
-									${params[3].value}<img src=${params[2].value} /><br/>
-									${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
-									${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
-									${params[4].marker}${params[4].seriesName}: ${params[4].value}%<br/>`;
+					let tooltipHtml = "";
+					if (params[0].seriesName === "Humidity") {
+						let shift = params.shift();
+						params.push(shift);
+					}
+					tooltipHtml = `${params[0].name}<br/>
+							${params[3].value}<img src=${params[2].value} /><br/>
+							${params[0].marker}${params[0].seriesName}: ${params[0].value} C\xB0<br/>
+							${params[1].marker}${params[1].seriesName}: ${params[1].value || 0}mm<br/>
+							${params[4].marker}${params[4].seriesName}: ${params[4].value}%<br/>`;
+					return tooltipHtml;
 				}
 			},
 			legend: {
