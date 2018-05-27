@@ -18,6 +18,7 @@ class SearchBar extends Component {
 		e.preventDefault();
 		const { searchTerm } = this.state;
 		this.props.fetchWeather(searchTerm, 'metric');
+		this.setState({searchTerm: ''})
 	}
 	componentDidMount(){
 		const { searchTerm } = this.state;
@@ -34,6 +35,7 @@ class SearchBar extends Component {
 					type="search"
 					placeholder="Enter a city to search"
 					aria-label="Search"
+					value={this.state.searchTerm}
 					onChange={this.handleInputChange.bind(this)}
 				/>
 	

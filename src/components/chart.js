@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import _ from "lodash";
 
 import echarts from "echarts/lib/echarts";
 import "echarts/lib/chart/line";

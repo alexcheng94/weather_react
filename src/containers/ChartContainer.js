@@ -6,6 +6,7 @@ import Chart from "../components/chart";
 
 class ChartContainer extends Component {
 	render() {
+		//handle weather data
 		const cityData = this.props.weather[this.props.weather.length - 1] || [];
 		const weatherList = cityData.list;
 		let cityName = "";
@@ -21,7 +22,7 @@ class ChartContainer extends Component {
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp);
 
 			iconUrl = weatherList.map(weatherItem => {
-				return `http://openweathermap.org/img/w/${
+				return `https://openweathermap.org/img/w/${
 					weatherItem.weather[0].icon
 				}.png`;
 			});
@@ -48,6 +49,24 @@ class ChartContainer extends Component {
 				weatherItem => weatherItem.weather[0].description
 			);
 		}
+
+		//handle error messages
+		if (this.props.errors.length > 0) {
+			const { errors } = this.props;
+			const currentError = errors[errors.length - 1];
+			const { cod, message } = currentError.response.data;
+			let bonusMessage = "";
+			if (cod === "404") {
+				bonusMessage = "Please make sure you entered the correct city name";
+			}
+			return (
+				<div className="alert alert-danger">
+					<h1>{cod + ", " + message }</h1>
+					<p>{bonusMessage}</p>
+				</div>
+			);
+		}
+
 		return (
 			<div className="bg-light ">
 				{this.props.weather.length > 0 ? (
@@ -61,7 +80,7 @@ class ChartContainer extends Component {
 						iconUrl={iconUrl}
 					/>
 				) : (
-					<h1 className='alert alert-primary'>Loading</h1>
+					<h1 className="alert alert-primary">Loading</h1>
 				)}
 			</div>
 		);
@@ -69,6 +88,6 @@ class ChartContainer extends Component {
 }
 
 function mapStateToProps(state) {
-	return { weather: state.weather };
+	return { weather: state.weather, errors: state.errors };
 }
 export default connect(mapStateToProps)(ChartContainer);

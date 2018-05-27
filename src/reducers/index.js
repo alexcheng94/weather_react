@@ -1,9 +1,10 @@
 import {combineReducers} from 'redux';
 import WeatherReducer from './reducer_weather';
-import createStore from 'redux';
+import ErrorReducer from './reducer_errors';
 
 const rootReducer = combineReducers({
-	weather: WeatherReducer
+	weather: WeatherReducer,
+	errors: ErrorReducer
 })
 
 export default rootReducer;
