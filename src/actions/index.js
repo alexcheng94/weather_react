@@ -5,7 +5,7 @@ export const FETCH_WEATHER_REJECTED = "FETCH_WEATHER_REJECTED";
 export const FETCH_WEATHER_FULFILLED = "FETCH_WEATHER_FULFILLED";
 
 const API_KEY = "1b436fa7255fb87869c2000de33af2d6";
-const ROOT_URL = `http://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&lang=zh_cn`;
+const ROOT_URL = `https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&lang=zh_cn`;
 
 export function fetchWeather(searchTerm, unit) {
 //a more concise redux-promise-middleware method

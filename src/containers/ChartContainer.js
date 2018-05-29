@@ -24,7 +24,7 @@ class ChartContainer extends Component {
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp);
 
 			iconUrl = weatherList.map(weatherItem => {
-				return `http://openweathermap.org/img/w/${
+				return `https://openweathermap.org/img/w/${
 					weatherItem.weather[0].icon
 				}.png`;
 			});
