@@ -5,9 +5,10 @@ import moment from "moment";
 import Chart from "../components/chart";
 
 class ChartContainer extends Component {
+
 	render() {
 		//handle weather data
-		const cityData = this.props.weather[this.props.weather.length - 1] || [];
+		const cityData = this.props.weather;
 		const weatherList = cityData.list;
 		let cityName = "";
 		let iconUrl = [];
@@ -17,12 +18,13 @@ class ChartContainer extends Component {
 		let rain = [];
 		let description = [];
 
-		if (this.props.weather.length > 0) {
+		// map weather data when it's fetched
+		if (this.props.fetched) {
 			cityName = cityData.city.name;
 			tempList = weatherList.map(weatherItem => weatherItem.main.temp);
 
 			iconUrl = weatherList.map(weatherItem => {
-				return `https://openweathermap.org/img/w/${
+				return `http://openweathermap.org/img/w/${
 					weatherItem.weather[0].icon
 				}.png`;
 			});
@@ -50,18 +52,19 @@ class ChartContainer extends Component {
 			);
 		}
 
-		//handle error messages
-		if (this.props.errors.length > 0) {
-			const { errors } = this.props;
-			const currentError = errors[errors.length - 1];
-			const { cod, message } = currentError.response.data;
+		// handle error messages
+		if (this.props.error) {
+			const { error } = this.props;
+			const { cod, message } = error;
 			let bonusMessage = "";
 			if (cod === "404") {
 				bonusMessage = "Please make sure you entered the correct city name";
+			} else if (cod === "400") {
+				bonusMessage = "Please enter a city name";
 			}
 			return (
 				<div className="alert alert-danger">
-					<h1>{cod + ", " + message }</h1>
+					<h1>{'Error '+cod + ", " + message}</h1>
 					<p>{bonusMessage}</p>
 				</div>
 			);
@@ -69,7 +72,7 @@ class ChartContainer extends Component {
 
 		return (
 			<div className="bg-light ">
-				{this.props.weather.length > 0 ? (
+				{this.props.fetched ? (
 					<Chart
 						cityName={cityName}
 						temps={tempList}
@@ -88,6 +91,10 @@ class ChartContainer extends Component {
 }
 
 function mapStateToProps(state) {
-	return { weather: state.weather, errors: state.errors };
+	return {
+		fetched: state.fetched,
+		weather: state.weather,
+		error: state.error
+	};
 }
 export default connect(mapStateToProps)(ChartContainer);
