@@ -2,9 +2,6 @@
 
 //Core node module, manipulate file paths etc.
 const path = require("path");
-//Creates index.html file for us,
-//or use a template
-//which is what we're doing in this project
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
@@ -36,7 +33,7 @@ module.exports = {
 	plugins: [
 		new HtmlWebpackPlugin(
 			//We want to use a template 
-			//(add bundle.js script tag into existing html file)
+			//(add index_bundle.js script tag into existing html file)
 			//rather than letting HtmlWebpackPlugin create an html file from scratch
 			//hence we specify a template option
 			{ template: "./src/index.html" }
