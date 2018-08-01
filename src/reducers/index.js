@@ -15,7 +15,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         weather: action.payload.data,
-        isFetching: false
+        isFetching: false,
+        error: null
       };
     case FETCH_WEATHER_REJECTED:
       return {
