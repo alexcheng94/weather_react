@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchWeather } from "../actions/index";
+import { fetchWeatherByGeolocation, fetchWeatherByName } from "../actions/index";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -8,7 +8,7 @@ class SearchBar extends Component {
     super(props);
 
     this.state = {
-      searchTerm: "Shanghai"
+      searchTerm: ""
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,13 +22,17 @@ class SearchBar extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { searchTerm } = this.state;
-    this.props.fetchWeather(searchTerm, "metric");
+    this.props.fetchWeatherByName(searchTerm, "metric");
     this.setState({ searchTerm: "" });
   }
 
   componentDidMount() {
-    const { searchTerm } = this.state;
-    this.props.fetchWeather(searchTerm, "metric");
+    //Fetch weather based on geolocation on first boot    
+    navigator.geolocation.getCurrentPosition(position=>{
+      const { coords: { latitude, longitude}} = position;
+      this.props.fetchWeatherByGeolocation(latitude,longitude,'metric');
+    }, (err)=>{console.log(err);
+    });
   }
 
   render() {
@@ -51,7 +55,11 @@ class SearchBar extends Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({ fetchWeather }, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    { fetchWeatherByGeolocation, fetchWeatherByName },
+    dispatch
+  );
 
 export default connect(
   null,

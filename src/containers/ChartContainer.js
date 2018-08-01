@@ -70,7 +70,7 @@ class ChartContainer extends Component {
     }
 
     return (
-      <div className="bg-light ">
+      <div className="bg-light container">
         <Chart
           cityName={cityName || "Loading"}
           temps={tempList}

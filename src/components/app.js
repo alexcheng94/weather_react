@@ -4,14 +4,12 @@ import ChartContainer from "../containers/ChartContainer";
 import Header from "./header";
 
 const App = () => {
-	return (
-		<div>
-			<Header />
-			<div className="container">
-				<ChartContainer />
-			</div>
-		</div>
-	);
+  return (
+    <div>
+      <Header />
+      <ChartContainer />
+    </div>
+  );
 };
 
 export default App;

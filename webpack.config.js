@@ -38,11 +38,7 @@ module.exports = {
 			//hence we specify a template option
 			{ template: "./src/index.html" }
 		)
-	],
-	devServer: {
-		host: '0.0.0.0',
-		port: 8080
-	}
+	]
 };
 
 
