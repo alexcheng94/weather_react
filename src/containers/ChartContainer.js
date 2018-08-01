@@ -1,56 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
+// import { mapData } from "../selectors";
 
 import Chart from "../components/chart";
 
 class ChartContainer extends Component {
   render() {
-    //handle weather data
-    const cityData = this.props.weather;
-    const weatherList = cityData.list;
-    let cityName = "";
-    let iconUrl = [];
-    let tempList = [];
-    let timePoints = [];
-    let humidity = [];
-    let rain = [];
-    let description = [];
-
-    // map weather data when it's fetched
-    if (!this.props.isFetching) {
-      cityName = cityData.city.name;
-      tempList = weatherList.map(weatherItem => weatherItem.main.temp);
-
-      iconUrl = weatherList.map(weatherItem => {
-        return `https://openweathermap.org/img/w/${
-          weatherItem.weather[0].icon
-        }.png`;
-      });
-
-      timePoints = weatherList.map(weatherItem => {
-        const s = weatherItem.dt;
-        const date = moment.unix(s).calendar();
-        return date;
-      });
-
-      humidity = weatherList.map(weatherItem => weatherItem.main.humidity);
-
-      rain = weatherList.map(weatherItem => {
-        if (!weatherItem.rain) {
-          return 0;
-        } else if (!weatherItem.rain["3h"]) {
-          return 0;
-        } else {
-          return weatherItem.rain["3h"].toFixed(2);
-        }
-      });
-
-      description = weatherList.map(
-        weatherItem => weatherItem.weather[0].description
-      );
-    }
-
     // handle error messages
     if (this.props.error) {
       const { error } = this.props;
@@ -68,27 +24,18 @@ class ChartContainer extends Component {
         </div>
       );
     }
-
     return (
       <div className="bg-light container">
-        <Chart
-          cityName={cityName || "Loading"}
-          temps={tempList}
-          timePoints={timePoints}
-          humidity={humidity}
-          rain={rain}
-          description={description}
-          iconUrl={iconUrl}
-        />
+        <Chart />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ isFetching, weather, error }) => ({
-  isFetching,
-  weather,
-  error
+
+const mapStateToProps = ({error, isFetching}) => ({
+  error,
+  isFetching
 });
 
 export default connect(mapStateToProps)(ChartContainer);

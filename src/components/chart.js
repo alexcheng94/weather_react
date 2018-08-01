@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-
+import { connect } from "react-redux";
 import echarts from "echarts/lib/echarts";
+import { mapData } from "../selectors";
+
 import "echarts/lib/chart/line";
 import "echarts/lib/chart/bar";
 import "echarts/lib/component/tooltip";
@@ -9,7 +11,7 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
-export default class Chart extends Component {
+class Chart extends Component {
   instantiateChart() {
     const weatherChart = echarts.init(
       document.getElementById("chart"),
@@ -17,7 +19,7 @@ export default class Chart extends Component {
     );
     weatherChart.setOption({
       title: {
-        text: this.props.cityName,
+        text: this.props.cityName || "Loading",
         left: "center",
         top: 35,
         textStyle: {
@@ -169,3 +171,20 @@ export default class Chart extends Component {
     return <div id="chart" className="col-sm-12" style={{ height: 580 }} />;
   }
 }
+
+const mapStateToProps = state => {
+  const mapDataWithState = mapData(state);
+  return {
+    isFetching: state.isFetching,
+    error: state.error,
+    cityName: mapDataWithState("cityName"),
+    temps: mapDataWithState("tempList"),
+    timePoints: mapDataWithState("timePoints"),
+    humidity: mapDataWithState("humidity"),
+    rain: mapDataWithState("rain"),
+    description: mapDataWithState("description"),
+    iconUrl: mapDataWithState("iconUrl")
+  };
+};
+
+export default connect(mapStateToProps)(Chart);
