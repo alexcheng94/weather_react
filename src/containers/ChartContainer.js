@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import moment from "moment";
-// import { mapData } from "../selectors";
 
-import Chart from "../components/chart";
+import Chart from "./chart";
+import ProgressBar from "../components/progress";
 
 class ChartContainer extends Component {
   render() {
@@ -26,14 +26,18 @@ class ChartContainer extends Component {
     }
     return (
       <div className="bg-light container">
+        {this.props.isFetching ? (
+          <ProgressBar />
+        ) : (
+          <div style={{ height: "5px" }} />
+        )}
         <Chart />
       </div>
     );
   }
 }
 
-
-const mapStateToProps = ({error, isFetching}) => ({
+const mapStateToProps = ({ error, isFetching }) => ({
   error,
   isFetching
 });

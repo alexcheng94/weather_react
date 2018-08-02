@@ -1,6 +1,7 @@
 import axios from "axios";
 
 export const FETCH_WEATHER = "FETCH_WEATHER";
+export const FETCH_WEATHER_PENDING = "FETCH_WEATHER_PENDING";
 export const FETCH_WEATHER_REJECTED = "FETCH_WEATHER_REJECTED";
 export const FETCH_WEATHER_FULFILLED = "FETCH_WEATHER_FULFILLED";
 
@@ -18,10 +19,10 @@ export function fetchWeather(searchTerm) {
 	}else{
 		url = `${ROOT_URL}&units=metric&lat=${arguments[0]}&lon=${arguments[1]}`;
 	}
-  const request = axios.get(url);
+	const request = axios.get(url);
   return {
     type: FETCH_WEATHER,
-    payload: request
+		payload: request
   };
 }
   /*

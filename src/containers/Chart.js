@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import echarts from "echarts/lib/echarts";
-import { mapData } from "../selectors";
+import {mapData} from "../selectors";
 
 import "echarts/lib/chart/line";
 import "echarts/lib/chart/bar";
@@ -19,7 +19,7 @@ class Chart extends Component {
     );
     weatherChart.setOption({
       title: {
-        text: this.props.cityName || "Loading",
+        text: this.props.cityName||"Loading",
         left: "center",
         top: 35,
         textStyle: {
@@ -175,8 +175,6 @@ class Chart extends Component {
 const mapStateToProps = state => {
   const mapDataWithState = mapData(state);
   return {
-    isFetching: state.isFetching,
-    error: state.error,
     cityName: mapDataWithState("cityName"),
     temps: mapDataWithState("tempList"),
     timePoints: mapDataWithState("timePoints"),
