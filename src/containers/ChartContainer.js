@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import moment from "moment";
 
 import Chart from "./chart";
 import ProgressBar from "../components/progress";
@@ -25,12 +24,13 @@ class ChartContainer extends Component {
       );
     }
     return (
-      <div className="bg-light container">
+      <div className="bg-light">
         {this.props.isFetching ? (
           <ProgressBar />
         ) : (
           <div style={{ height: "5px" }} />
         )}
+        
         <Chart />
       </div>
     );

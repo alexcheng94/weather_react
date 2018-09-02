@@ -30,7 +30,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         isFetching: false,
-        error: action.payload.response.data
+        error: action.payload.response.data || action.payload.message
       };
   }
   return state;

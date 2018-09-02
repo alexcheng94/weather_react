@@ -37,19 +37,19 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <form className="form-inline float-left " onSubmit={this.handleSubmit}>
+      <form className="input-group col-lg-4 col-sm-8 col-xs-12" onSubmit={this.handleSubmit}>
         <input
-          className="form-control mr-sm-2"
           type="search"
+          className="form-control"
           placeholder="Enter a city to search"
-          aria-label="Search"
+          aria-label="Enter a city to search"
+          aria-describedby="button-addon2"
           value={this.state.searchTerm}
           onChange={this.handleInputChange}
         />
-
-        <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+        <div className="input-group-append">
+          <button className="btn btn-outline-success" type="button" id="button-addon2">Search</button>
+        </div>
       </form>
     );
   }
@@ -65,3 +65,4 @@ export default connect(
   null,
   mapDispatchToProps
 )(SearchBar);
+

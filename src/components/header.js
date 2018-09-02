@@ -5,7 +5,7 @@ import SearchBar from "../containers/SearchBar";
 const Header = () => (
   <nav className="navbar navbar-light bg-light mb-3">
     <div className="container">
-      <a className="navbar-brand">Weather</a>
+      <a className="navbar-brand d-none d-sm-block">Weather</a>
       <SearchBar />
     </div>
   </nav>

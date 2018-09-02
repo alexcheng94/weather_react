@@ -18,7 +18,7 @@ export const mapData = state => type => {
     case "timePoints":
       return weatherList.map(weatherItem => {
         const s = weatherItem.dt;
-        const date = moment.unix(s).calendar();
+        const date = moment.unix(s).format('ddd h a')
         return date;
       });
     case "humidity":

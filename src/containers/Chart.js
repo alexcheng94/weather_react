@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import echarts from "echarts/lib/echarts";
-import {mapData} from "../selectors";
+import { mapData } from "../selectors";
 
 import "echarts/lib/chart/line";
 import "echarts/lib/chart/bar";
@@ -11,7 +11,24 @@ import "echarts/lib/component/title";
 import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
+//change chart style on smaller devices
+const chartStyle =
+  window.innerWidth < 576
+    ? {
+        height: 450,
+        //chart canvas margin
+        innerMargin: 50
+      }
+    : {
+        height: 580,
+        innerMargin: 25
+      };
+
 class Chart extends Component {
+  constructor(props) {
+    super(props);
+    this.handleResize = this.handleResize.bind(this);
+  }
   instantiateChart() {
     const weatherChart = echarts.init(
       document.getElementById("chart"),
@@ -19,7 +36,7 @@ class Chart extends Component {
     );
     weatherChart.setOption({
       title: {
-        text: this.props.cityName||"Loading",
+        text: this.props.cityName || "Loading",
         left: "center",
         top: 35,
         textStyle: {
@@ -55,13 +72,13 @@ class Chart extends Component {
       grid: [
         {
           top: "15%",
-          left: 50,
-          right: 50,
+          left: chartStyle.innerMargin,
+          right: chartStyle.innerMargin,
           height: "60%"
         },
         {
-          left: 50,
-          right: 50,
+          left: chartStyle.innerMargin,
+          right: chartStyle.innerMargin,
           bottom: 60,
           height: "10%"
         }
@@ -81,18 +98,18 @@ class Chart extends Component {
       ],
       yAxis: [
         {
-          name: "Temperature (C\xB0)",
+          name: "C\xB0",
           type: "value",
           scale: true
         },
         {
-          name: "Precipitation (mm)",
+          name: "mm",
           type: "value",
           scale: true
         },
         {
           gridIndex: 1,
-          name: "Humidity (%)",
+          name: "%",
           nameGap: 5,
           type: "value",
           interval: 20,
@@ -148,27 +165,26 @@ class Chart extends Component {
         }
       ]
     });
-    window.addEventListener("resize", () => {
-      weatherChart.resize();
-    });
+    window.addEventListener("resize", this.handleResize, false);
+    return weatherChart;
   }
-
+  handleResize() {
+    // -> weatherChart.resize()
+    //for removing event listener later
+    this.instantiateChart().resize(); 
+  }
   componentDidUpdate() {
     this.instantiateChart();
   }
-
   componentDidMount() {
     this.instantiateChart();
   }
-
   componentWillUnmount() {
-    window.removeEventListener("resize", () => {
-      weatherChart.resize();
-    });
+    window.removeEventListener("resize", this.handleResize, false);
   }
 
   render() {
-    return <div id="chart" className="col-sm-12" style={{ height: 580 }} />;
+    return <div id="chart" className="col-sm-12" style={{height:chartStyle.height}} />;
   }
 }
 

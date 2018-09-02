@@ -6,9 +6,9 @@ import promiseMiddleware from "redux-promise-middleware";
 const configureStore = () => {
   const middlewares = [promiseMiddleware()];
 
-  // if (process.env.NODE_ENV !== "production") {
+  if (process.env.NODE_ENV !== "production") {
     middlewares.push(createLogger());
-  // }
+  }
 
   const store = createStore(
     rootReducer, 
