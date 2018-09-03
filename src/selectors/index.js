@@ -5,7 +5,7 @@
 import moment from "moment";
 
 export const mapData = state => type => {
-  const weatherList = state.weather.list;
+  const weatherList = state.forecast.list;
   // only map data when state.weather is propagated
   if (!weatherList) {
     return null;

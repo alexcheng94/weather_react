@@ -12,18 +12,8 @@ import "echarts/lib/component/axisPointer";
 import "echarts/theme/macarons";
 
 //change chart style on smaller devices
-const chartStyle =
-  window.innerWidth < 576
-    ? {
-        height: 450,
-        //chart canvas margin
-        innerMargin: 50
-      }
-    : {
-        height: 580,
-        innerMargin: 25
-      };
-
+const innerMargin = window.innerWidth < 576? 25: 50;
+  
 class Chart extends Component {
   constructor(props) {
     super(props);
@@ -35,16 +25,6 @@ class Chart extends Component {
       "macarons"
     );
     weatherChart.setOption({
-      title: {
-        text: this.props.cityName || "Loading",
-        left: "center",
-        top: 35,
-        textStyle: {
-          color: "#000",
-          fontWeight: "bolder",
-          fontSize: "20"
-        }
-      },
       tooltip: {
         trigger: "axis",
         formatter: params => {
@@ -63,7 +43,7 @@ class Chart extends Component {
       },
       legend: {
         data: ["Temperature", "Humidity", "Rain"],
-        x: "left",
+        x: "center",
         top: 10
       },
       axisPointer: {
@@ -71,16 +51,16 @@ class Chart extends Component {
       },
       grid: [
         {
-          top: "15%",
-          left: chartStyle.innerMargin,
-          right: chartStyle.innerMargin,
-          height: "60%"
+          top: "10%",
+          left: innerMargin,
+          right: innerMargin,
+          height: "50%"
         },
         {
-          left: chartStyle.innerMargin,
-          right: chartStyle.innerMargin,
+          left: innerMargin,
+          right: innerMargin,
           bottom: 60,
-          height: "10%"
+          height: "20%"
         }
       ],
       xAxis: [
@@ -100,17 +80,19 @@ class Chart extends Component {
         {
           name: "C\xB0",
           type: "value",
+          nameGap: 3,
           scale: true
         },
         {
           name: "mm",
+          nameGap: 3,
           type: "value",
           scale: true
         },
         {
           gridIndex: 1,
           name: "%",
-          nameGap: 5,
+          nameGap: 2,
           type: "value",
           interval: 20,
           scale: true
@@ -171,7 +153,7 @@ class Chart extends Component {
   handleResize() {
     // -> weatherChart.resize()
     //for removing event listener later
-    this.instantiateChart().resize(); 
+    this.instantiateChart().resize();
   }
   componentDidUpdate() {
     this.instantiateChart();
@@ -184,14 +166,13 @@ class Chart extends Component {
   }
 
   render() {
-    return <div id="chart" className="col-sm-12" style={{height:chartStyle.height}} />;
+    return <div id="chart" className="col-sm-12" />;
   }
 }
 
 const mapStateToProps = state => {
   const mapDataWithState = mapData(state);
   return {
-    cityName: mapDataWithState("cityName"),
     temps: mapDataWithState("tempList"),
     timePoints: mapDataWithState("timePoints"),
     humidity: mapDataWithState("humidity"),

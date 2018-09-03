@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 
 import Chart from "./chart";
+import CurrentWeather from "../components/currentWeather";
 import ProgressBar from "../components/progress";
 
 class ChartContainer extends Component {
@@ -24,22 +25,18 @@ class ChartContainer extends Component {
       );
     }
     return (
-      <div className="bg-light">
-        {this.props.isFetching ? (
-          <ProgressBar />
-        ) : (
-          <div style={{ height: "5px" }} />
-        )}
-        
+      <div className="bg-light chartContainer  col-md-8 mx-auto">
+        <CurrentWeather current={this.props.current} isFetching={this.props.isFetching}/>
         <Chart />
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ error, isFetching }) => ({
+const mapStateToProps = ({ error, isFetching, current}) => ({
   error,
-  isFetching
+  isFetching,
+  current
 });
 
 export default connect(mapStateToProps)(ChartContainer);

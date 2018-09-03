@@ -1,44 +1,63 @@
 import axios from "axios";
 
-export const FETCH_WEATHER = "FETCH_WEATHER";
-export const FETCH_WEATHER_PENDING = "FETCH_WEATHER_PENDING";
-export const FETCH_WEATHER_REJECTED = "FETCH_WEATHER_REJECTED";
-export const FETCH_WEATHER_FULFILLED = "FETCH_WEATHER_FULFILLED";
+export const FETCH_FORECAST = "FETCH_FORECAST";
+export const FETCH_FORECAST_PENDING = "FETCH_FORECAST_PENDING";
+export const FETCH_FORECAST_REJECTED = "FETCH_FORECAST_REJECTED";
+export const FETCH_FORECAST_FULFILLED = "FETCH_FORECAST_FULFILLED";
+
+export const FETCH_CURRENT = "FETCH_CURRENT";
+export const FETCH_CURRENT_PENDING = "FETCH_CURRENT_PENDING";
+export const FETCH_CURRENT_REJECTED = "FETCH_CURRENT_REJECTED";
+export const FETCH_CURRENT_FULFILLED = "FETCH_CURRENT_FULFILLED";
 
 const API_KEY = "1b436fa7255fb87869c2000de33af2d6";
-const ROOT_URL = `https://api.openweathermap.org/data/2.5/forecast?appid=${API_KEY}&lang=zh_cn`;
+const ROOT_URL = `https://api.openweathermap.org/data/2.5`;
+
+function getUrl(intermediateUrl) {
+	//arguments -> [intermediateUrl, [args]]
+	//args referes to the arguments passed to the action creators,
+	//its length could be 1 (city name) or 2 (lat, lon)
+  if (arguments[1].length === 1) {
+    return `${intermediateUrl}&q=${arguments[1][0]}`;
+  } else {
+    return `${intermediateUrl}&lat=${arguments[1][0]}&lon=${arguments[1][1]}`;
+  }
+}
 
 //a more concise redux-promise-middleware method
-export function fetchWeather(searchTerm) {
-	let url;
-	//Check how many arguments are passed to the action creator
-	//1 means search by name
-	//2 means search by coordinates
-	if (arguments.length === 1) {
-		url = `${ROOT_URL}&units=metric&q=${arguments[0]}`;
-	}else{
-		url = `${ROOT_URL}&units=metric&lat=${arguments[0]}&lon=${arguments[1]}`;
-	}
-	const request = axios.get(url);
+export function fetchForecast(...args) {
+  const FORECAST_URL = `${ROOT_URL}/forecast?appid=${API_KEY}&lang=zh_cn&units=metric`;
+  const url = getUrl.call(this, FORECAST_URL, args);
+  const request = axios.get(url);
   return {
-    type: FETCH_WEATHER,
-		payload: request
+    type: FETCH_FORECAST,
+    payload: request
   };
 }
-  /*
+
+export function fetchCurrent(...args) {
+  const CURRENT_URL = `${ROOT_URL}/weather?appid=${API_KEY}&lang=zh_cn&units=metric`;
+  const url = getUrl.call(this, CURRENT_URL, args);
+  const request = axios.get(url);
+  return {
+    type: FETCH_CURRENT,
+    payload: request
+  };
+}
+/*
 //more verbose redux thunk method:
 	return function(dispatch) {
 		//Async action is starting
-		dispatch({ type: FETCH_WEATHER });
+		dispatch({ type: FETCH_FORECAST });
 		const url = `${ROOT_URL}&units=${unit}&q=${searchTerm}`;
 		axios.get(url)
 			//Async action succeeded
 			.then(res => {
-				dispatch({ type: FETCH_WEATHER_SUCCESS, payload: res });
+				dispatch({ type: FETCH_FORECAST_SUCCESS, payload: res });
 			})
 			//Async actions failed
 			.catch(err => {
-				dispatch({type: FETCH_WEATHER_FAIL, error: err})
+				dispatch({type: FETCH_FORECAST_FAIL, error: err})
 			});
 	};
 */

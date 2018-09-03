@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchWeather } from "../actions/index";
+import { fetchForecast, fetchCurrent } from "../actions/index";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
@@ -22,7 +22,8 @@ class SearchBar extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { searchTerm } = this.state;
-    this.props.fetchWeather(searchTerm);
+    this.props.fetchCurrent(searchTerm)
+    this.props.fetchForecast(searchTerm);
     this.setState({ searchTerm: "" });
   }
 
@@ -30,7 +31,8 @@ class SearchBar extends Component {
     //Fetch weather based on geolocation on first boot    
     navigator.geolocation.getCurrentPosition(position=>{
       const { coords: { latitude, longitude}} = position;
-      this.props.fetchWeather(latitude,longitude);
+      this.props.fetchCurrent(latitude,longitude);
+      this.props.fetchForecast(latitude,longitude);
     }, (err)=>{console.log(err);
     });
   }
@@ -57,7 +59,7 @@ class SearchBar extends Component {
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(
-    {fetchWeather},
+    {fetchForecast, fetchCurrent},
     dispatch
   );
 
