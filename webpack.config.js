@@ -4,6 +4,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   //react entry file
@@ -32,11 +33,7 @@ module.exports = {
         test: /\.css$/,
         exclude: /node_modules/,
         use: ["style-loader", "css-loader"]
-			},
-			{
-				test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
-				loader: 'file-loader?name=[name].[ext]'
-			}
+      }
     ]
   },
 
@@ -48,6 +45,12 @@ module.exports = {
       //hence we specify a template option
       { template: "./src/index.html" }
     ),
+    new CopyWebpackPlugin([
+      {
+        from: "./src/assets",
+        to: "assets"
+      }
+    ]),
     new ManifestPlugin({
       filename: "manifest.json",
       seed: {
@@ -60,37 +63,37 @@ module.exports = {
         theme_color: "#999999",
         icons: [
           {
-            src: "android-icon-36x36.png",
+            src: "./assets/icons/android-icon-36x36.png",
             sizes: "36x36",
             type: "image/png",
             density: "0.75"
           },
           {
-            src: "android-icon-48x48.png",
+            src: "./assets/icons/android-icon-48x48.png",
             sizes: "48x48",
             type: "image/png",
             density: "1.0"
           },
           {
-            src: "android-icon-72x72.png",
+            src: "./assets/icons/android-icon-72x72.png",
             sizes: "72x72",
             type: "image/png",
             density: "1.5"
           },
           {
-            src: "android-icon-96x96.png",
+            src: "./assets/icons/android-icon-96x96.png",
             sizes: "96x96",
             type: "image/png",
             density: "2.0"
           },
           {
-            src: "android-icon-144x144.png",
+            src: "./assets/icons/android-icon-144x144.png",
             sizes: "144x144",
             type: "image/png",
             density: "3.0"
           },
           {
-            src: "android-icon-192x192.png",
+            src: "./assets/icons/android-icon-192x192.png",
             sizes: "192x192",
             type: "image/png",
             density: "4.0"

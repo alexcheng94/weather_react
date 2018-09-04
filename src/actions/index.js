@@ -14,12 +14,10 @@ const API_KEY = "1b436fa7255fb87869c2000de33af2d6";
 const ROOT_URL = `https://api.openweathermap.org/data/2.5`;
 
 function getUrl(intermediateUrl) {
-	console.log('HELLLERRRRR');
-	
 	//arguments -> [intermediateUrl, [args]]
 	//args referes to the arguments passed to the action creators,
 	//its length could be 1 (city name) or 2 (lat, lon)
-  if (arguments[1].length === 2) {
+  if (arguments.length === 2) {
     return `${intermediateUrl}&q=${arguments[1]}`;
   } else {
     return `${intermediateUrl}&lat=${arguments[1]}&lon=${arguments[2]}`;

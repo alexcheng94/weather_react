@@ -8,12 +8,13 @@ import {
 } from "../actions/index";
 
 const initialState = {
-  //isFetching is for ChartContainer to render a loader,
+  //isFetchingForcast is for ChartContainer to render a loader,
   //it does not concern the Chart component, this way the Chart component
   //will only rerender on _FULFILLED (i.e. state.forecast is propagated)
   //rather than rerender on every _PENDING action,
   //making chart transition between cities smoother
-  isFetching: true,
+  isFetchingForcast: true,
+  isFetchingCurrent: true,
   forecast: {},
   current: {},
   error: null
@@ -22,27 +23,33 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORECAST_PENDING:
+      return { ...state, isFetchingForcast: true };
     case FETCH_CURRENT_PENDING:
-      return { ...state, isFetching: true };
+      return { ...state, isFetchingCurrent: true };
     case FETCH_FORECAST_FULFILLED:
       return {
         ...state,
         forecast: action.payload.data,
-        isFetching: false,
+        isFetchingForcast: false,
         error: null
       };
     case FETCH_CURRENT_FULFILLED:
       return {
         ...state,
-        isFetching: false,
+        isFetchingCurrent: false,
         error: null,
         current: action.payload.data
       };
     case FETCH_FORECAST_REJECTED:
+      return {
+        ...state,
+        isFetchingCurrent: false,
+        error: action.payload.response.data
+      };
     case FETCH_CURRENT_REJECTED:
       return {
         ...state,
-        isFetching: false,
+        isFetchingForcast: false,
         error: action.payload.response.data
       };
   }

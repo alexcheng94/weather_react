@@ -51,7 +51,7 @@ class Chart extends Component {
       },
       grid: [
         {
-          top: "10%",
+          top: "12%",
           left: innerMargin,
           right: innerMargin,
           height: "50%"
@@ -166,7 +166,7 @@ class Chart extends Component {
   }
 
   render() {
-    return <div id="chart" className="col-sm-12" />;
+    return <div id="chart" className="bg-light rounded col-sm-12" />;
   }
 }
 

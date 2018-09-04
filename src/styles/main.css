@@ -1,13 +1,42 @@
 #chart{
   height: 500px;
 }
-.currentWeather{
-  height: 60px;
-  border: 1px red solid;
+.card{
+  max-width: 500px;
+}
+.card-body{
+  display: flex;
+  justify-content: space-between;
+}
+.card-left p{
+  margin: 0;
+  line-height: 1.2;
+}
+.card-left h5{
+  letter-spacing: 1px;
+}
+.card-middle{
+  margin-top: -6px;
+}
+.card-middle img{
+  width: 66px;
+  vertical-align: top;
+}
+.card-middle p {
+  text-align: center;
+  margin-bottom: 0;
+}
+.card-right{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly
+}
+.card-right p{
+  margin: 0;
+  line-height: 1.7;
 }
 @media only screen and (max-width: 768px) {
   #chart{
-    border: 1px red solid;
     width: 100%;
     padding: 0;
     height: 380px;
