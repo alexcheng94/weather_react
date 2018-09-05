@@ -2,9 +2,12 @@
 
 //Core node module, manipulate file paths etc.
 const path = require("path");
+const PUBLIC_PATH = "https://alexcheng94.github.io/weather_react/";
+
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ManifestPlugin = require("webpack-manifest-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
+const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 
 module.exports = {
   //react entry file
@@ -13,7 +16,8 @@ module.exports = {
   //where we want our compiled code to go, i.e., one bundled file
   output: {
     path: path.join(__dirname, "/dist"),
-    filename: "index_bundle.js"
+    filename: "index_bundle.js",
+    publicPath: PUBLIC_PATH
   },
 
   //specify a loader in module object below
@@ -36,7 +40,6 @@ module.exports = {
       }
     ]
   },
-
   plugins: [
     new HtmlWebpackPlugin(
       //We want to use a template
@@ -51,6 +54,14 @@ module.exports = {
         to: "assets"
       }
     ]),
+    new SWPrecacheWebpackPlugin({
+      cacheId: "Weather",
+      dontCacheBustUrlsMatching: /\.\w{8}\./,
+      filename: "service-worker.js",
+      minify: true,
+      navigateFallback: PUBLIC_PATH + "index.html",
+      staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/]
+    }),
     new ManifestPlugin({
       filename: "manifest.json",
       seed: {
@@ -60,7 +71,7 @@ module.exports = {
         start_url: "/",
         display: "standalone",
         background_color: "white",
-        theme_color: "#999999",
+        theme_color: "#d3d3d3",
         icons: [
           {
             src: "./assets/icons/android-icon-36x36.png",
@@ -97,7 +108,14 @@ module.exports = {
             sizes: "192x192",
             type: "image/png",
             density: "4.0"
+          },
+          {
+            src: "./assets/icons/splash-screen.png",
+            sizes: "1157x1157",
+            type: "image/png",
+            density: "4.0"
           }
+
         ]
       }
     })
