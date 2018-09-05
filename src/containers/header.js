@@ -11,7 +11,6 @@ const Header = props => (
         <SearchBar />
       </div>
     </nav>
-    {/* <ProgressBar /> */}
     {props.isFetchingForcast || props.isFetchingCurrent ? (
       <ProgressBar />
     ) : (
