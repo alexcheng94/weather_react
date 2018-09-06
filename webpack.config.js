@@ -59,13 +59,13 @@ module.exports = {
     new ManifestPlugin({
       filename: "manifest.json",
       seed: {
-        name: "Yes, Another Weather App",
+        name: "Yet Another Weather App",
         short_name: "Weather!",
         lang: "en-US",
         start_url: ".",
         display: "standalone",
+        theme_color: "#CCBFEE",
         background_color: "white",
-        theme_color: "#EBE5FB",
         icons: [
           {
             src: "./assets/icons/android-icon-36x36.png",

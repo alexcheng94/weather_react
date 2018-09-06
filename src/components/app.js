@@ -1,13 +1,11 @@
 import React from "react";
 
 import ChartContainer from "../containers/ChartContainer";
-import Header from "../containers/header";
-import CurrentWeather from "../containers/currentWeather";
+import Header from "../containers/Header";
 
 const App = () => (
   <div>
     <Header />
-    <CurrentWeather />
     <ChartContainer />
   </div>
 );

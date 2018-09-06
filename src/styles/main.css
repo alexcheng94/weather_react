@@ -2,10 +2,11 @@
   max-width: 920px;
 }
 .navbar {
-  background-color: #ebe5fb;
+  background-color: #CCBFEE;
 }
 .search-btn {
   border: 1px solid #ced4da;
+  background-color: white;
 }
 .navbar-brand {
   letter-spacing: 0.6px;
@@ -19,6 +20,7 @@
 }
 #chart {
   height: 500px;
+  border: 1px solid #ced4da; 
 }
 .card {
   max-width: 500px;
@@ -63,6 +65,9 @@
 .card-right p {
   margin: 0;
   line-height: 1.7;
+}
+.alert p{
+  margin-bottom: 2px; 
 }
 @media only screen and (max-width: 768px) {
   #chart {

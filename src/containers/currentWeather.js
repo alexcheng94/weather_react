@@ -10,11 +10,11 @@ function getRain(rain) {
   }
   //2. rain:{"3h": ...}
   if ("3h" in rain) {
-    return Math.round(rain["3h"])
+    return Math.round(rain["3h"]);
   }
   //3. rain: {"1h": ...}
   if ("1h" in rain) {
-    return Math.round(rain["1h"])
+    return Math.round(rain["1h"]);
   }
   //4. rain:{empty}
   return 0;
@@ -38,35 +38,33 @@ class currentWeather extends Component {
     const time = moment.unix(dt).format("h a");
 
     return (
-      <div className=" col-md-8 mx-auto mb-3">
-        <div className="card currentWeather bg-light mx-auto rounded">
-          <div className="card-body">
-            <div className="card-left text-secondary">
-              <h4>{isFetchingCurrent ? "Loading..." : name}</h4>
-              <div className='time'>
-                <p>{time}</p>
-                <p>{day}</p>
-              </div>
+      <div className="card currentWeather bg-light mx-auto rounded mb-4">
+        <div className="card-body">
+          <div className="card-left text-secondary">
+            <h4>{isFetchingCurrent ? "Loading..." : name}</h4>
+            <div className="time">
+              <p>{time}</p>
+              <p>{day}</p>
             </div>
-            <div className="card-middle">
-              <div className="card-middle-top">
-                <img
-                  src={`https://openweathermap.org/img/w/${weather[0].icon}.png`}
-                  alt="weather icon"
-                />
-                <span className="display-4">
-                  {Math.round(main.temp)}
-                  &deg;
-                </span>
-                <span>C</span>
-              </div>
-              <p>{weather[0].main}</p>
+          </div>
+          <div className="card-middle">
+            <div className="card-middle-top">
+              <img
+                src={`https://openweathermap.org/img/w/${weather[0].icon}.png`}
+                alt="weather icon"
+              />
+              <span className="display-4">
+                {Math.round(main.temp)}
+                &deg;
+              </span>
+              <span>C</span>
             </div>
-            <div className="card-right text-secondary">
-              <p>{`Rain Fall: ${getRain({ rain })} mm`}</p>
-              <p>{`Humidity: ${main.humidity} %`}</p>
-              <p>{`Wind: ${wind.speed} m/s`}</p>
-            </div>
+            <p>{weather[0].main}</p>
+          </div>
+          <div className="card-right text-secondary">
+            <p>{`Rain Fall: ${getRain({ rain })} mm`}</p>
+            <p>{`Humidity: ${main.humidity} %`}</p>
+            <p>{`Wind: ${wind.speed} m/s`}</p>
           </div>
         </div>
       </div>
