@@ -3,7 +3,7 @@ import React from "react";
 const ProgressBar = () => (
 
     <div
-      className="progress-bar bg-success progress-bar-striped progress-bar-animated"
+      className="progress-bar bg-primary progress-bar-striped progress-bar-animated"
       role="progressbar"
       aria-valuenow="75"
       aria-valuemin="0"

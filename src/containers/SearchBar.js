@@ -6,11 +6,9 @@ import { bindActionCreators } from "redux";
 class SearchBar extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       searchTerm: ""
     };
-
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
   }
@@ -50,7 +48,7 @@ class SearchBar extends Component {
           onChange={this.handleInputChange}
         />
         <div className="input-group-append">
-          <button className="btn btn-outline-success" type="button" id="button-addon2">Search</button>
+          <button className="btn search-btn" type="button" id="button-addon2">Search</button>
         </div>
       </form>
     );

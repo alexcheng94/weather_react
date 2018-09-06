@@ -5,7 +5,7 @@ import ProgressBar from "../components/progress";
 
 const Header = props => (
   <div className="mb-3">
-    <nav className="navbar navbar-light bg-light">
+    <nav className="navbar">
       <div className="container">
         <a className="navbar-brand d-none d-sm-block">Weather</a>
         <SearchBar />

@@ -12,14 +12,12 @@ const SWPrecacheWebpackPlugin = require("sw-precache-webpack-plugin");
 module.exports = {
   //react entry file
   entry: "./src/index.js",
-
   //where we want our compiled code to go, i.e., one bundled file
   output: {
     path: path.join(__dirname, "/dist"),
     filename: "index_bundle.js",
     publicPath: PUBLIC_PATH
   },
-
   //specify a loader in module object below
   module: {
     rules: [
@@ -42,10 +40,6 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin(
-      //We want to use a template
-      //(add index_bundle.js script tag into existing html file)
-      //rather than letting HtmlWebpackPlugin create an html file from scratch
-      //hence we specify a template option
       { template: "./src/index.html" }
     ),
     new CopyWebpackPlugin([
@@ -68,10 +62,10 @@ module.exports = {
         name: "Yes, Another Weather App",
         short_name: "Weather!",
         lang: "en-US",
-        start_url: "/",
+        start_url: ".",
         display: "standalone",
         background_color: "white",
-        theme_color: "#d3d3d3",
+        theme_color: "#EBE5FB",
         icons: [
           {
             src: "./assets/icons/android-icon-36x36.png",
@@ -115,7 +109,6 @@ module.exports = {
             type: "image/png",
             density: "4.0"
           }
-
         ]
       }
     })
